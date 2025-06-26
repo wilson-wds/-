@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>威爾設計工作室 - 服務紀錄單</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 使用系統預設字體以提高相容性 */
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        /* 列印時的樣式 */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+            .print-container {
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+            input {
+                border: 1px solid #ccc !important;
+            }
+            .print-show-border {
+                border: 1px solid #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body class="bg-red-50 p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 sm:p-10 print-container" id="work-order">
+        <!-- 頁首與操作按鈕 -->
+        <header class="flex justify-between items-start mb-8">
+            <div class="flex items-center">
+                <img src="https://i.ibb.co/0V22qGy9/3.png" alt="威爾設計工作室 Logo" class="h-32 w-auto mr-6" onerror="this.style.display='none'; this.onerror=null;">
+                <div>
+                    <h1 class="text-3xl font-bold text-red-900">威爾設計工作室</h1>
+                    <h2 class="text-xl text-red-700 mt-1">服務紀錄單</h2>
+                </div>
+            </div>
+            <div class="no-print">
+                <!-- 移除了 onclick 屬性，改用 id 觸發事件 -->
+                <button id="print-btn" class="bg-red-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-900 transition duration-300">
+                    列印紀錄單
+                </button>
+            </div>
+        </header>
+
+        <!-- 客戶資訊 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="border rounded-lg p-4 bg-red-50">
+                <h3 class="text-lg font-semibold text-red-800 mb-3">客戶資料</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <label for="customer-name" class="w-24 text-sm font-medium text-gray-600">客戶名稱:</label>
+                        <input type="text" id="customer-name" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div class="flex items-center">
+                        <label for="contact-person" class="w-24 text-sm font-medium text-gray-600">聯絡人:</label>
+                        <input type="text" id="contact-person" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div class="flex items-center">
+                        <label for="customer-phone" class="w-24 text-sm font-medium text-gray-600">聯絡電話:</label>
+                        <input type="text" id="customer-phone" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div class="flex items-center">
+                        <label for="customer-address" class="w-24 text-sm font-medium text-gray-600">地址:</label>
+                        <input type="text" id="customer-address" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                </div>
+            </div>
+            <div class="border rounded-lg p-4 bg-red-50">
+                 <h3 class="text-lg font-semibold text-red-800 mb-3">訂單資訊</h3>
+                 <div class="space-y-2">
+                    <div class="flex items-center">
+                        <label for="order-id" class="w-24 text-sm font-medium text-gray-600">紀錄單號:</label>
+                        <input type="text" id="order-id" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div class="flex items-center">
+                        <label for="order-date" class="w-24 text-sm font-medium text-gray-600">開單日期:</label>
+                        <input type="date" id="order-date" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                    <div class="flex items-center">
+                        <label for="attendant" class="w-24 text-sm font-medium text-gray-600">承辦人:</label>
+                        <input type="text" id="attendant" class="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 工作項目 -->
+        <section>
+            <h3 class="text-lg font-semibold text-red-800 mb-2">工作項目</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-red-900 uppercase bg-red-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 w-1/12">#</th>
+                            <th scope="col" class="px-4 py-3 w-2/12">日期</th>
+                            <th scope="col" class="px-4 py-3 w-4/12">工作內容</th>
+                            <th scope="col" class="px-4 py-3 w-1/12 text-right">數量</th>
+                            <th scope="col" class="px-4 py-3 w-2/12 text-right">單價</th>
+                            <th scope="col" class="px-4 py-3 w-2/12 text-right">小計</th>
+                            <th scope="col" class="px-1 py-3 w-1/12 text-center no-print">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-container">
+                        <!-- 項目將會動態新增於此 -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7" class="text-right py-2 no-print">
+                                <button id="add-item-btn" class="bg-red-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-900 transition duration-300">+ 新增項目</button>
+                            </td>
+                        </tr>
+                        <tr class="font-semibold text-red-900">
+                            <td colspan="5" class="px-4 py-3 text-right text-lg">總計 (TWD)</td>
+                            <td id="total-amount" class="px-4 py-3 text-right text-lg font-bold">0.00</td>
+                            <td class="no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- 備註 -->
+        <section class="mt-8">
+             <h3 class="text-lg font-semibold text-red-800 mb-2">備註</h3>
+             <textarea class="w-full h-24 p-2 border border-gray-300 rounded-md text-sm focus:ring-red-500 focus:border-red-500" placeholder="請在此輸入備註事項..."></textarea>
+        </section>
+
+        <!-- 公司核章 -->
+        <footer class="mt-16 pt-8 border-t-2 border-dashed border-red-200">
+            <div class="flex justify-end">
+                <div class="w-1/2 md:w-1/3 text-center">
+                    <p class="text-gray-600">公司核章:</p>
+                    <div class="mt-12 border-b border-gray-400"></div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 元素選取 ---
+            const addItemBtn = document.getElementById('add-item-btn');
+            const itemsContainer = document.getElementById('items-container');
+            const totalAmountEl = document.getElementById('total-amount');
+            const printBtn = document.getElementById('print-btn');
+            const orderIdInput = document.getElementById('order-id');
+            
+            // --- 變數 ---
+            const originalTitle = document.title; // 儲存原始的網頁標題
+            let itemCounter = 0;
+
+            // --- 事件監聽器 ---
+            
+            // 新增項目按鈕
+            addItemBtn.addEventListener('click', addItem);
+
+            // 列印按鈕
+            printBtn.addEventListener('click', function() {
+                const recordId = orderIdInput.value.trim();
+                // 如果紀錄單號存在，則將網頁標題改為該單號
+                if (recordId) {
+                    document.title = recordId;
+                }
+                // 觸發瀏覽器列印功能
+                window.print();
+            });
+            
+            // 列印結束後（或取消列印時）的事件
+            window.addEventListener('afterprint', function() {
+                // 將網頁標題恢復為原始標題
+                document.title = originalTitle;
+            });
+
+
+            // --- 函式 ---
+
+            // 初始化函式
+            function initialize() {
+                // 設定初始開單日期為今天
+                document.getElementById('order-date').valueAsDate = new Date();
+
+                // 設定預設紀錄單號 (WD- + 時間戳末6碼)
+                const defaultRecordId = 'WD-' + Date.now().toString().slice(-6);
+                orderIdInput.value = defaultRecordId;
+
+                // 初始化時新增一個項目
+                addItem(); 
+            }
+            
+            // 新增工作項目列
+            function addItem() {
+                itemCounter++;
+                const tr = document.createElement('tr');
+                tr.classList.add('border-b', 'item-row', 'border-red-100');
+                tr.innerHTML = `
+                    <td class="px-4 py-2 font-medium text-gray-900">${itemCounter}</td>
+                    <td class="px-4 py-2">
+                        <input type="date" class="w-full p-1 bg-transparent border border-gray-300 rounded-md item-date focus:ring-red-500 focus:border-red-500">
+                    </td>
+                    <td class="px-4 py-2">
+                        <input type="text" placeholder="輸入工作描述" class="w-full p-1 bg-transparent border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                    </td>
+                    <td class="px-4 py-2">
+                        <input type="number" value="1" min="0" class="w-full p-1 bg-transparent border border-gray-300 rounded-md text-right item-quantity focus:ring-red-500 focus:border-red-500">
+                    </td>
+                    <td class="px-4 py-2">
+                        <input type="number" placeholder="0.00" class="w-full p-1 bg-transparent border border-gray-300 rounded-md text-right item-price focus:ring-red-500 focus:border-red-500">
+                    </td>
+                    <td class="px-4 py-2 text-right font-medium text-gray-700 item-subtotal">0.00</td>
+                    <td class="px-1 py-2 text-center no-print">
+                        <button class="text-red-600 hover:text-red-800 delete-item-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                itemsContainer.appendChild(tr);
+
+                // 為新項目的日期欄位設定預設值為今天
+                const newDateInput = tr.querySelector('.item-date');
+                newDateInput.valueAsDate = new Date();
+                
+                // 為刪除按鈕添加事件監聽器
+                tr.querySelector('.delete-item-btn').addEventListener('click', function() {
+                    tr.remove();
+                    updateTotal();
+                    updateItemNumbers();
+                });
+
+                // 為數量和單價輸入框添加事件監聽器
+                tr.querySelectorAll('.item-quantity, .item-price').forEach(input => {
+                    input.addEventListener('input', updateTotal);
+                });
+            }
+
+            // 更新總計金額
+            function updateTotal() {
+                let total = 0;
+                document.querySelectorAll('.item-row').forEach(row => {
+                    const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                    const subtotal = quantity * price;
+                    row.querySelector('.item-subtotal').textContent = subtotal.toFixed(2);
+                    total += subtotal;
+                });
+                totalAmountEl.textContent = total.toFixed(2);
+            }
+            
+            // 刪除項目後更新編號
+            function updateItemNumbers() {
+                const itemRows = document.querySelectorAll('.item-row');
+                itemRows.forEach((row, index) => {
+                    row.cells[0].textContent = index + 1;
+                });
+                itemCounter = itemRows.length;
+            }
+
+            // 執行初始化
+            initialize();
+        });
+    </script>
+</body>
+</html>
